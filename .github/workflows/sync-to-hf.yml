@@ -1,33 +1,50 @@
-name: Sync to Hugging Face Hub
+name: Sync to Hugging Face Space
 
 on:
   push:
-    branches: [main]  # Trigger khi push lên main
-  workflow_dispatch:  # Cho phép chạy manual từ Actions tab
+    branches: [main]  # Trigger on push to main
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          lfs: true  # Bắt buộc nếu có file lớn
+          lfs: true  # Enable Git LFS for large files
 
-      - name: Push to Hugging Face Hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}  
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'  # Match your app's Python version
+
+      - name: Install Dependencies
         run: |
           pip install huggingface_hub
-          SPACE_ID="Felix272/Book-Recommender-System"
 
-          # Clone Space repo
-          git clone https://huggingface.co/spaces/$SPACE_ID space_repo
-          rsync -av --delete --exclude '.git/' --exclude '.github/' --exclude '.DS_Store' ./ space_repo/
+      - name: Sync to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}  # Hugging Face token
+          SPACE_ID: "Felix272/Book-Recommender-System"  # Your Space ID
+        run: |
+          # Clone Space repo with authentication
+          git clone https://github-actions-bot:${HF_TOKEN}@huggingface.co/spaces/${SPACE_ID} space_repo
 
+          # Sync files, excluding Git-related and unnecessary files
+          rsync -av --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.DS_Store' \
+            --exclude '*.pyc' \
+            --exclude '__pycache__/' \
+            ./ space_repo/
+
+          # Navigate to Space repo and commit changes
           cd space_repo
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           git add .
-          git commit -m "Auto-deploy from GitHub Actions" || echo "No changes"
-          git push https://phucnguyen:$HF_TOKEN@huggingface.co/spaces/$SPACE_ID main
+          git commit -m "Auto-deploy from GitHub Actions" || echo "No changes to commit"
+          git push origin main
