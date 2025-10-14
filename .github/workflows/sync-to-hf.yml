@@ -23,7 +23,7 @@ jobs:
 
           # Clone Space repo
           git clone https://huggingface.co/spaces/$SPACE_ID space_repo
-          rsync -av --delete ./ space_repo/
+          rsync -av --delete --exclude '.git/' --exclude '.github/' --exclude '.DS_Store' ./ space_repo/
 
           cd space_repo
           git config user.email "github-actions[bot]@users.noreply.github.com"
