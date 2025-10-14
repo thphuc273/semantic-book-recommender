@@ -2,8 +2,8 @@ name: Sync to Hugging Face Space
 
 on:
   push:
-    branches: [main]  # Trigger khi push lên main
-  workflow_dispatch:  # Cho phép chạy thủ công
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   sync-to-hub:
@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          lfs: true  # Kích hoạt Git LFS cho các tệp lớn
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'  
+          python-version: '3.10'
 
       - name: Install Dependencies
         run: |
@@ -26,31 +26,27 @@ jobs:
 
       - name: Sync to Hugging Face Space
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}  # Token Hugging Face
-          SPACE_ID: "Felix272/Book-Recommender-System"  # Space ID 
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          SPACE_ID: "Felix272/Book-Recommender-System"
         run: |
-          git clone https://github-actions-bot:${HF_TOKEN}@huggingface.co/spaces/${SPACE_ID} space_repo || echo "Failed to clone, assuming new repo"
+          git clone https://github-actions-bot:${HF_TOKEN}@huggingface.co/spaces/${SPACE_ID} space_repo || echo "Repo not found, will create new one"
 
-          # Đồng bộ tệp, bỏ qua lỗi file vanished
-          rsync -av --delete --ignore-errors --quiet || true
+          rsync -av --delete --ignore-errors \
             --exclude '.git/' \
             --exclude '.github/' \
             --exclude '.DS_Store' \
             --exclude '*.pyc' \
             --exclude '__pycache__/' \
-            ./ space_repo/
+            ./ space_repo/ || echo "Rsync completed with minor warnings"
 
-          # Navigate vào Space repo
           cd space_repo
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
 
-          # Đảm bảo .gitattributes cho Git LFS
           echo "*.csv filter=lfs diff=lfs merge=lfs -text" > .gitattributes
           echo "*.txt filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
           git add .gitattributes
 
-          # Thêm README.md nếu chưa có
           if [ ! -f README.md ]; then
             echo "# Book Recommender System" > README.md
             echo "A Gradio-based semantic book recommender system powered by Hugging Face models and LangChain." >> README.md
