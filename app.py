@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 import gradio as gr
+import os
 
 from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
@@ -29,7 +30,10 @@ raw_documents = TextLoader("data/tagged_description.txt").load()
 text_splitter = CharacterTextSplitter(chunk_size=1, chunk_overlap=0, separator="\n")
 documents = text_splitter.split_documents(raw_documents)
 
-db_books = Chroma.from_documents(documents, OpenAIEmbeddings())
+embedding = OpenAIEmbeddings(
+    api_key=os.getenv("OPENAI_API_KEY")
+)
+db_books = Chroma.from_documents(documents, embedding=embedding)
 
 # =======================
 # Semantic retrieval logic
