@@ -1,0 +1,24 @@
+name: Sync to Hugging Face Hub
+
+on:
+  push:
+    branches: [main]  # Trigger khi push lên main
+  workflow_dispatch:  # Cho phép chạy manual từ Actions tab
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # Checkout code
+        with:
+          fetch-depth: 0
+          lfs: true  # Bắt buộc nếu có file lớn
+
+      - name: Push to Hugging Face Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}  # Sử dụng secret
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git remote add hf https://github.com/${{ github.repository_owner }}.bot:${HF_TOKEN}@huggingface.co/spaces/${{ github.repository_owner }}/YOUR_SPACE_NAME main  # Thay YOUR_SPACE_NAME bằng tên Space
+          git push --force hf main  # Force push để sync (cẩn thận nếu Space có thay đổi độc lập)
