@@ -25,7 +25,7 @@ books["large_thumbnail"] = np.where(
 # =======================
 # Prepare Chroma vector DB
 # =======================
-raw_documents = TextLoader("tagged_description.txt").load()
+raw_documents = TextLoader("data/tagged_description.txt").load()
 text_splitter = CharacterTextSplitter(chunk_size=1, chunk_overlap=0, separator="\n")
 documents = text_splitter.split_documents(raw_documents)
 
