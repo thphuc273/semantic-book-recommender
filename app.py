@@ -14,7 +14,7 @@ load_dotenv()
 # =======================
 # Load and preprocess books
 # =======================
-books = pd.read_csv("books_with_emotions.csv")
+books = pd.read_csv("data/books_with_emotions.csv")
 
 books["large_thumbnail"] = np.where(
     books["thumbnail"].notna(),
