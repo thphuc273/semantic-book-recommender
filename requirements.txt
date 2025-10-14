@@ -8,8 +8,10 @@ matplotlib
 python-dotenv==1.0.1
 
 # LangChain ecosystem
-langchain-openai
-langchain-chroma
+langchain==0.3.7
+langchain-community==0.3.7
+langchain-openai==0.3.0
+langchain-chroma==0.1.4
 
 # NLP & Transformers
 transformers==4.47.1
