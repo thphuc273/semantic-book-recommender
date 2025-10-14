@@ -29,11 +29,10 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}  # Token Hugging Face
           SPACE_ID: "Felix272/Book-Recommender-System"  # Space ID 
         run: |
-          # Clone Space repo với xác thực
           git clone https://github-actions-bot:${HF_TOKEN}@huggingface.co/spaces/${SPACE_ID} space_repo || echo "Failed to clone, assuming new repo"
 
           # Đồng bộ tệp, bỏ qua lỗi file vanished
-          rsync -av --delete --ignore-errors \
+          rsync -av --delete --ignore-errors --quiet || true
             --exclude '.git/' \
             --exclude '.github/' \
             --exclude '.DS_Store' \
