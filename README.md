@@ -1,3 +1,14 @@
+---
+title: 📚 AI Semantic Book Recommender
+emoji: 📖
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+sdk_version: "4.44.0"
+app_file: app.py
+pinned: false
+---
+
 # 📚 Semantic Book Recommender System
 
 An intelligent **book recommendation and sentiment analysis system** built with **LangChain**, **Gradio**, and **Hugging Face Spaces**.  
@@ -95,3 +106,4 @@ python app.py
 ```
 
 ✅ Opens: http://127.0.0.1:7860
+✅ Hugging Face Space: https://huggingface.co/spaces/Felix272/Book-Recommender-System
