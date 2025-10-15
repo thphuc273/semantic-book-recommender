@@ -17,14 +17,16 @@ This project combines **semantic text embeddings**, **vector search**, and **emo
 
 ## 🧩 Project structure
 
-semantic-book-recommender/
-├── data/
-├── app.py                    # Gradio UI
-├── sentiment_analysis.py     # Emotion detection 
-├── vector_search.py          # ChromaDB + Embeddings
-├── text_classification
-├── requirements.txt         # Dependencies
-└── README.md               # This file!
+| File/Folder | Purpose | Status |
+|-------------|---------|--------|
+| **`app.py`** | Main Gradio Interface | **Core** |
+| **`sentiment_analysis.py`** | Emotion Analysis (6 emotions) | **Core** |
+| **`vector_search.py`** | ChromaDB Semantic Search | **Core** |
+| **`text_classification/`** | Transformers Pipeline | **Core** |
+| **`data/`** | 7k Books | **4.14MB** |
+| **`requirements.txt`** | Dependencies | **Pinned** |
+| **`.env.example`** | API Keys Template | **Copy me** |
+| **`README.md`** | Setup Guide | **You're here** |
 
 ## 🛠️ Tech Stack
 
