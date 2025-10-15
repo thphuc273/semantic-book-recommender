@@ -8,7 +8,6 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain.embeddings import SentenceTransformerEmbeddings
 
-# Load data (assuming db_books is a FAISS vector store)
 books = pd.read_csv('data/book_with_categories.csv')
 
 def retrieve_semantic_recommendations(query: str, top_k: int = 10, db_books=None) -> pd.DataFrame:

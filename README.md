@@ -1,27 +1,95 @@
----
-title: Sentiment Analysis Dashboard
-emoji: 📚
-colorFrom: indigo
-colorTo: purple
-sdk: gradio
-sdk_version: "4.39.0"
-app_file: app.py
-pinned: true
----
+# 📚 Semantic Book Recommender System
 
-# Sentiment Analysis Dashboard 📊
+An intelligent **book recommendation and sentiment analysis system** built with **LangChain**, **Gradio**, and **Hugging Face Spaces**.  
+This project combines **semantic text embeddings**, **vector search**, and **emotion-based NLP** to recommend books aligned with user preferences and emotional tone.
 
-This project is an interactive Gradio web app for analyzing **book emotions** based on their descriptions.  
-It combines NLP and emotion classification models to visualize the emotional distribution of books.
+---
 
 ## 🚀 Features
-- Upload or search books with emotion detection
-- Supports emotions: joy, sadness, anger, fear, disgust, surprise, and neutral
-- Visual charts and comparison between predicted vs. labeled emotions
-- Built with `transformers`, `pandas`, and `gradio`
 
-## 🧠 Model
-Uses a pre-trained Hugging Face emotion classifier fine-tuned on social media text.
+- 🧠 **Semantic Book Search** using OpenAI embeddings + Chroma vector store  
+- 💬 **Sentiment Analysis** of book descriptions or user reviews (anger, joy, fear, surprise, etc.)  
+- 📖 **Category-based Filtering** (fiction, business, science, etc.)  
+- ⚡ **Fast Inference UI** with Gradio and LangChain  
+- ☁️ **Deployable on Hugging Face Spaces** via CI/CD  
 
-## ⚙️ Deployment
-CI/CD is automated via **GitHub Actions**, deploying directly to Hugging Face Spaces.
+---
+
+## 🧩 Project structure
+
+semantic-book-recommender/
+├── data/
+├── app.py                    # Gradio UI
+├── sentiment_analysis.py     # Emotion detection 
+├── vector_search.py          # ChromaDB + Embeddings
+├── text_classification
+├── requirements.txt         # Dependencies
+└── README.md               # This file!
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Version | Purpose |
+|-----------|------------|---------|---------|
+| **UI Framework** | Gradio | `^4.44.0` | Interactive dashboard with Glass theme |
+| **Embeddings** | OpenAI | `text-embedding-3-small` | Semantic text understanding (1536 dims) |
+| **Vector Database** | Chroma | `^0.5.0` | Fast similarity search & storage |
+| **NLP Pipeline** | Transformers + LangChain | `^4.40.0` | Emotion detection & text processing |
+| **Visualization** | Seaborn + Matplotlib | `^0.13.2` | Emotion charts & recommendation graphs |
+| **CI/CD** | GitHub Actions + HF Spaces | Latest | Auto-deployment to cloud |
+| **Containerization** | Docker | `^24.0` | Local dev & production consistency |
+| **Environment** | Python | `3.10+` | Core runtime |
+| **Data Processing** | Pandas | `^2.2.0` | CSV handling & preprocessing |
+| **API Client** | OpenAI + HF Hub | Latest | Model inference |
+
+**💡 Pro Tip:** All dependencies are pinned for reproducibility!
+
+---
+
+## ⚙️ Quick Start
+
+### Prerequisites
+- Python 3.10+
+- Git
+- [OpenAI API Key](https://platform.openai.com/account/api-keys)
+- [Hugging Face Token](https://huggingface.co/settings/tokens)
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/thphuc273/semantic-book-recommender.git
+cd semantic-book-recommender
+```
+
+### 2️⃣ Set up Environment
+```bash
+# Copy template
+cp .env.example .env
+```
+
+Edit `.env` file:
+```
+OPENAI_API_KEY=sk-your-openai-key-here
+HF_TOKEN=hf_your-huggingface-token
+```
+
+### 3️⃣ Install Dependencies
+```bash
+# Create virtual environment (recommended)
+python -m venv venv
+
+# Activate
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate   # Windows
+
+# Install everything
+pip install -r requirements.txt
+```
+### 4️⃣ Download Dataset
+
+[Kaggle dataset](https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata)
+
+### 5️⃣ Launch App
+```
+python app.py
+```
+
+✅ Opens: http://127.0.0.1:7860
